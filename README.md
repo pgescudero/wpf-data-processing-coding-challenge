@@ -1,6 +1,6 @@
 wpf-data-processing-coding-challenge
 ==================
-A small WPF application that resolves the coding challenge detailed below, inspired on the Objective-C implementation posted by Greg Lee on https://github.com/Gregliest/Coding-Challenge-1. This challenge centers around data analysis and data structures, but also has a WPF UI.
+A small WPF application that resolves the coding challenge detailed below, inspired by the Objective-C implementation posted by Greg Lee on https://github.com/Gregliest/Coding-Challenge-1. This challenge centers around data analysis and data structures, but also has a WPF UI.
 
 Some sample data and analyzed data are included in the repo.
 
