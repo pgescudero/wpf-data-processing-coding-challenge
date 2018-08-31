@@ -1,0 +1,212 @@
+﻿<Window x:Class="DataProcessingCodingChallenge.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Data Processing Coding Challenge" 
+        Height="500" Width="830" MinHeight="500" MinWidth="830">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Margin="10,0" Header="Source file">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid>
+                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
+                             x:Name="SourceFileTextBox" KeyUp="SourceFileTextBox_KeyUp" Margin="5" Padding="5,0" Height="23"/>
+                    <TextBlock IsHitTestVisible="False" Text="Enter file path to import input data" 
+                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,10" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=SourceFileTextBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
+                <!--<TextBox Grid.Column="0" VerticalContentAlignment="Center" TextWrapping="Wrap" Text="Select test file to import from local or online source" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderThickness="1"  
+                     Margin="10, 10, 0, 10" Padding="5,0" Height="23"/>-->
+
+                <Button Grid.Column="1" Height="23" 
+                    HorizontalAlignment="Left" 
+                    Margin="0, 10, 5, 10" 
+                    Name="btnBrowseFile" 
+                    VerticalAlignment="Top" 
+                    Width="80" Click="btnBrowseFile_Click">
+                    <TextBlock FontWeight="Normal" 
+                           Foreground="#FF3C3C3C" 
+                           Text="Browse" 
+                           TextWrapping="Wrap" />
+                </Button>
+
+                <Button Grid.Column="2" Height="23" 
+                    HorizontalAlignment="Left" 
+                    Margin="0, 10, 10, 10" 
+                    Name="btnRunTest" 
+                    VerticalAlignment="Top" 
+                    Width="80" Click="btnRunTest_Click">
+                    <TextBlock FontWeight="Normal" 
+                           Foreground="#FF3C3C3C" 
+                           Text="Run test" 
+                           TextWrapping="Wrap" />
+                </Button>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Header="Config" Margin="10,0,5,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Activity Id:" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="8"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                                    Margin="10, 10, 10, 5" Width="150" Height="23" x:Name="ActivityIdTextbox"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Epochs in the rolling average:" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="150"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                                    Margin="10, 5" Width="150" Height="23" x:Name="NumRollingAverageEpochsTextbox"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Rolling % threshold:" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="0.96"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                                    Margin="10, 5" Width="150" Height="23" x:Name="FractionEpochsMatchingTextbox"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Consecutive epochs to trigger start:" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="150"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                                    Margin="10, 5" Width="150" Height="23" x:Name="ConsecutiveTriggerEpochsTextbox"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Consecutive epochs to trigger end:" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="375"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                                    Margin="10,5" Width="150" Height="23" x:Name="NumEndEpochsTextbox"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Epoch Duration:" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="10"
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                                    Margin="10, 5" Width="150" Height="23" x:Name="EpochDurationTextbox"/>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Header="Log" Margin="10,0,5,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBox Grid.Row="0" TextWrapping="Wrap" IsReadOnly="True" 
+                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" BorderThickness="1"  
+                             Margin="10, 10, 10, 5" x:Name="LogTextBox"/>
+
+                        <Button Grid.Row="4" Height="23" 
+                                HorizontalAlignment="Right" 
+                                Margin="10, 5" 
+                                Name="btnClearLog" 
+                                VerticalAlignment="Top" 
+                                Width="100" Click="btnClearLog_Click">
+                            <TextBlock FontWeight="Normal" 
+                               Foreground="#FF3C3C3C" 
+                               Text="Clear Log" 
+                               TextWrapping="Wrap" />
+                        </Button>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+
+            <GroupBox Grid.Column="1" Header="Output" Margin="5,0,10,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Start time:" 
+                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" IsReadOnly="True"
+                            HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                            Margin="10, 10, 10, 5" Width="150" Height="23" x:Name="StartTimeTextbox"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="End time:" 
+                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" IsReadOnly="True"
+                            HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                            Margin="10, 5" Width="150" Height="23" x:Name="EndTimeTextbox"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Duration:" 
+                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" IsReadOnly="True"
+                            HorizontalAlignment="Right" VerticalAlignment="Stretch" BorderThickness="1"  
+                            Margin="10, 5" Width="150" Height="23" x:Name="DurationTextbox"/>
+
+                    <TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" BorderThickness="1"  
+                         Margin="10, 5" x:Name="OutputTextbox"/>
+
+                    <Button  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Height="23" 
+                    HorizontalAlignment="Right" 
+                    Margin="10, 5" 
+                    Name="btnExportToCSV" 
+                    VerticalAlignment="Top" 
+                    Width="100" Click="btnExportToCSV_Click">
+                        <TextBlock FontWeight="Normal" 
+                           Foreground="#FF3C3C3C" 
+                           Text="Export to CSV" 
+                           TextWrapping="Wrap" />
+                    </Button>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+    </Grid>
+</Window>
